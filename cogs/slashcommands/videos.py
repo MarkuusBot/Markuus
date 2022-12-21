@@ -23,7 +23,7 @@ class videos(commands.Cog):
             
         await member.display_avatar.replace(size = 128).save('./videos/img/membro.png')
         await interaction.response.send_message(t['args']['lulamaromba']['preparevideo'])
-        await lulamarombafuncvideo('./videos/img/membro.png')
+        await lulamaromba('./videos/img/membro.png')
         await interaction.channel.send(content = t['args']['lulamaromba']['herevideo'].format(interaction.user.mention),
         file = discord.File('./videos/save/lulamaromba.mp4'))
 
