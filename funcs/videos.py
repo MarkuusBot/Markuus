@@ -1,8 +1,8 @@
 from moviepy.editor import *
 
-async def lulamaromba(avatar):
+async def lulamarombafuncvideo(avatar):
 
-    clip = VideoFileClip("./videos/feijãopuro.mp4").subclip(0, 10)
+    clip = VideoFileClip("./videos/videosforedit/lulamarombaforedit.mp4").subclip(0, 10)
     image = ImageClip(avatar)
 
     image1 = image.set_start(0)
@@ -28,7 +28,7 @@ async def lulamaromba(avatar):
 
     video = CompositeVideoClip([clip, image1, image2, image3, image4])
     video.write_videofile(
-        filename = "./videos/save/lulamaromba.mp4",
+        filename = "./videos/videosave/lulamaromba.mp4",
         codec = 'libx264',
         fps = 24,
         preset ='ultrafast',
