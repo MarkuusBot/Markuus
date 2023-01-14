@@ -3,23 +3,23 @@
     "args":{
 
         "adv": "Advertencia",
+        "rmvadv": "Eliminación de advertencia",
+        "advsucess": "{} advertido con éxito",
+        "notadv": "Este miembro no tiene advertencias",
+        "rmvadvsucess": "{} advertencia eliminada con éxito",
 
         "notvote": "Para usar este comando, debe votar en top.gg, use /vote",
-
-        "rmvadv": "Eliminación de advertencia",
-
+        "moduledisable": "Este módulo está deshabilitado en este servidor",
+        "modulealreadyenable": "Este módulo ya está habilitado",
+        "modulealreadydisable": "Este módulo ya está deshabilitado",
+        "moduledisablesucess": "Módulo deshabilitado con éxito",
+        "moduleenablesucess": "Módulo habilitado con éxito",
+        
         "random": "Tu número elegido fue",
-
-        "advsucess": "{} advertido con éxito",
-
-        "notadv": "Este miembro no tiene advertencias",
-
-        "rmvadvsucess": "{} advertencia eliminada con éxito",
 
         "gan": "ganaste",
 
         "act": "activar",
-
         "dsb": "deshabilitar",
 
         "sendid": "Envía la identificación del chat en el chat.",
@@ -175,13 +175,21 @@
             "bite": "Morder",
             "lick": "Lamer",
 
-            "actionkiss": "besado",
-            "actionhug": "abrazado",
-            "actionslap": "abofeteado",
-            "actionpat": "hizo un cafuné en",
-            "actionpunch": "perforado",
-            "actionbite": "mordió",
-            "actionlick": "lamió",
+            "actionkiss": "{} besó a {}",
+            "actionhug": "{} abrazó a {}",
+            "actionslap": "{} abofeteó {}",
+            "actionpat": "{} palmeó {}",
+            "actionpunch": "{} perforado {} ",
+            "mordida de acción": "{} bit {}",
+            "actionlick": "{} lamió {}",
+            
+            "actionkissself": "¿{} te besaste a ti mismo??",
+            "actionslapself": "¿{} te abofeteaste??",
+            "actionpatself": "¿{} se dio palmaditas a sí mismo??",
+            "actionpunchself": "¿{} te golpeaste a ti mismo??",
+            "actionbiteself": "¿{} te mordiste??",
+            "actionlickself": "¿{} se lamió a sí mismo??",
+            "actionhugself": "Awwnn necesitas un abrazo aquí estás \n {} abrazado {}",
 
             "return": "Haz clic en 🔁 para devolver",
             "notkiss": "Creo que es mejor que solo seamos amigos."

@@ -3,23 +3,23 @@
     "args":{
 
         "adv": "Avertissement",
+        "rmvadv": "Suppression de l'avertissement",
+        "advsucess": "{} a été averti avec succès",
+        "notadv": "Ce membre n'a pas d'avertissement",
+        "rmvadvsucess": "{} avertissement supprimé avec succès",
 
         "notvote": "Pour utiliser cette commande, vous devez voter sur top.gg, utilisez /vote",
-
-        "rmvadv": "Suppression de l'avertissement",
+        "moduledisable": "Ce module est désactivé sur ce serveur",
+        "modulealreadyenable": "Ce module est déjà activé",
+        "modulealreadydisable": "Ce module est déjà désactivé",
+        "moduledisablesucess": "Module désactivé avec succès",
+        "moduleenablesucess": "Module activé avec succès",
 
         "random": "Votre numéro choisi était",
-
-        "advsucess": "{} a été averti avec succès",
-
-        "notadv": "Ce membre n'a pas d'avertissement",
-
-        "rmvadvsucess": "{} avertissement supprimé avec succès",
 
         "gan": "tu as gagné",
 
         "act": "Activer",
-
         "dsb": "désactiver",
 
         "sendid": "Envoyer l'identifiant de chat dans le chat",
@@ -173,13 +173,21 @@
             "bite": "Morsure",
             "lick": "Lécher",
 
-            "actionkiss": "embrassé",
-            "actionhug": "étreint",
-            "actionslap": "giflé",
-            "actionpat": "fait un café dans",
-            "actionpunch": "poinçonné",
-            "actionbite": "il mordit",
-            "actionlick": "léché",
+            "actionkiss": "{} a embrassé {}",
+            "actionhug": "{} a étreint {}",
+            "actionslap": "{} a giflé {}",
+            "actionpat": "{} a tapoté {}",
+            "actionpunch": "{} coup de poing {} ",
+            "actionbite": "{} bit {}",
+            "actionlick": "{} a léché {}",
+            
+            "actionkissself": "{} s'est embrassé??",
+            "actionslapself": "{} s'est giflé??",
+            "actionpatself": "{} s'est tapoté??",
+            "actionpunchself": "{} t'a donné un coup de poing??",
+            "actionbiteself": "{} t'es mordu ??",
+            "actionlickself": "{} s'est léché ??",
+            "actionhugself": "Awwnn tu as besoin d'un câlin ici tu es \n {} câliné {}",
 
             "return": "Cliquez sur le 🔁 pour redonner",
             "notkiss": "Je pense que nous ferions mieux d'être simplement amis"

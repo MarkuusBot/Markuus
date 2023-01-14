@@ -1,14 +1,14 @@
 import discord
 
 from discord.ui import InputText, Modal
-from db.members import *
-from funcs.defs import *
+from pymongo.collection import Collection
+from db.members import perf, dbmember
 
 class perfil(Modal):
 
     def __init__(self, ctx) -> None:
 
-        infos = perf.find_one({'_id': ctx.id})
+        infos: Collection = perf.find_one({'_id': ctx.id})
 
         super().__init__(title = 'Profile')
 
@@ -65,53 +65,31 @@ class perfil(Modal):
 
         while True:
 
-            if self.children[i].value == '':
+            if self.children[i].value == '': dbmember.upPerfil(interaction.user,f'r{i}',self.children[i].placeholder,None)
+            else: dbmember.upPerfil(interaction.user,f'r{i}',self.children[i].placeholder,self.children[i].value)
 
-                dbmember.upPerfil(interaction.user,f'r{i}',self.children[i].placeholder,None)
-            
-            else:
-
-                dbmember.upPerfil(interaction.user,f'r{i}',self.children[i].placeholder,self.children[i].value)
-
-            if i == 4:
-
-                break
-
-            else:
-
-                i +=1
+            if i == 4: break
+            else: i +=1
             
         i2 = 0
 
-        embed = discord.Embed(title = 'Perfil')
-
+        embed: discord.Embed = discord.Embed(title = 'Perfil')
         embed.set_thumbnail(url =interaction.user.display_avatar)
 
         while True:
 
-            per = perf.find_one({'_id': interaction.user.id})
+            per: Collection = perf.find_one({'_id': interaction.user.id})
 
-            if per[f'r{i2}']['value'] != None:
+            if per[f'r{i2}']['value'] != None: embed.add_field(name = per[f'r{i2}']['name'], value = per[f'r{i2}']['value'])
 
-                embed.add_field(name = per[f'r{i2}']['name'], value = per[f'r{i2}']['value'])
-
-            if per[f'r0']['value'] == None\
-            and per[f'r1']['value'] == None\
-            and per[f'r2']['value'] == None\
-            and per[f'r3']['value'] == None\
-            and per[f'r4']['value'] == None\
-            and per[f'r5']['value'] == None:
-
+            if per[f'r0']['value'] == None and per[f'r1']['value'] == None\
+            and per[f'r2']['value'] == None and per[f'r3']['value'] == None\
+            and per[f'r4']['value'] == None and per[f'r5']['value'] == None:
+                
                 embed.add_field(name = 'error', value = 'Você não possue registro')
-
                 break
 
-            if i2 == 5:
-
-                break
-
-            else:
-
-                i2 += 1
+            if i2 == 5:break
+            else:i2 += 1
 
         await interaction.response.edit_message(embed = embed)
