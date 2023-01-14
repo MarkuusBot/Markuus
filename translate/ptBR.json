@@ -3,29 +3,26 @@
     "args":{
 
         "adv": "Advertencia",
+        "rmvadv": "Remoção de advertencia",
+        "advsucess": "{} advertido com sucesso",
+        "notadv": "Esse membro não possue advertencias",
+        "rmvadvsucess": "{} advertencia removida com sucesso",
 
         "notvote": "Para usar esse comando você precisa votar no top.gg, use /vote",
-
-        "rmvadv": "Remoção de advertencia",
+        "moduledisable": "Este modulo está desativado nesse servidor",
+        "modulealreadyenable": "Este modulo já esta ativado",
+        "modulealreadydisable": "Este modulo já esta desativado",
+        "moduledisablesucess": "Modulo desativado com sucesso",
+        "moduleenablesucess": "Modulo ativado com sucesso",
 
         "random": "Seu numero escolhido foi",
-
-        "advsucess": "{} advertido com sucesso",
-
-        "notadv": "Esse membro não possue advertencias",
-
-        "rmvadvsucess": "{} advertencia removida com sucesso",
 
         "gan": "você ganhou",
 
         "act": "Ativar",
-
         "dsb": "Desativar",
-
         "sendid": "Mande no chat o id do chat",
-
         "sucessdef": "Canal definido com sucesso",
-
         "undef": "Log desativada com sucesso",
 
         "logs":{
@@ -175,13 +172,21 @@
             "bite": "Modida",
             "lick": "Lambida",
 
-            "actionkiss": "beijou",
-            "actionhug": "abraçou",
-            "actionslap": "estapeou",
-            "actionpat": "fez um cafuné em",
-            "actionpunch": "socou",
-            "actionbite": "mordeu",
-            "actionlick": "lambeu",
+            "actionkiss": "{} beijou {}",
+            "actionhug": "{} abraçou {}",
+            "actionslap": "{} estapeou {}",
+            "actionpat": "{} fez um cafuné em {}",
+            "actionpunch": "{} socou {} ",
+            "actionbite": "{} mordeu {}",
+            "actionlick": "{} lambeu {}",
+
+            "actionkissself": "{} beijou a si mesmo??",
+            "actionslapself": "{} estapeou a si mesmo??",
+            "actionpatself": "{} fez um cafuné em si mesmo??",
+            "actionpunchself": "{} socou a si mesmo??",
+            "actionbiteself": "{} mordeu a si mesmo??",
+            "actionlickself": "{} lambeu a si mesmo??",
+            "actionhugself": "Awwnn, você precisa de um abraço aqui está \n {} abraçou {}",
 
             "return": "Clique no 🔁 para retribuir",
             "notkiss": "Acho melhor sermos só amigos"
@@ -271,9 +276,8 @@
     "help":{
 
         "extras":{
-
             "init":"Escolha a categoria\ndesejada para saber\nmeus comandos",
-        "commands":"Meus comandos"
+            "commands":"Meus comandos"
         },
 
         "mod": {

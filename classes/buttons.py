@@ -1,4 +1,6 @@
-import discord, requests,hexacolors
+import discord
+import requests
+import hexacolors
 
 from discord import Interaction, ButtonStyle
 from discord.ui import button,Button, View
@@ -8,45 +10,57 @@ from funcs.defs import translates
 
 class changeavatar(discord.ui.View):
 
-    def __init__(self, membro):
+    def __init__(self, ctx: discord.User, member: discord.Member):
 
-        self.member = membro
+        self.member: discord.Member = member
+
+        self.ctx: discord.User = ctx
 
         super().__init__(timeout = 180, disable_on_timeout = True)
 
     @discord.ui.button(label = 'User Avatar',style = discord.ButtonStyle.blurple)
     async def useravatar(self, button: discord.ui.Button, interaction: discord.Interaction):
 
-        membro = self.member
-        t = translates(interaction.guild)
-        embed = discord.Embed(title = f'Avatar {membro}', 
-        description = f'[{t["args"]["avatar"]["click1"]}]({membro.avatar}) {t["args"]["avatar"]["click2"]}')
-        embed.set_image(url = f'{membro.avatar}')
-        await interaction.response.edit_message(embed = embed, View = guildavatar(membro))
+        t: dict = translates(interaction.guild)
+
+        if interaction.user.id != self.ctx.id:
+            return await interaction.response.send_message(f'{t["args"]["mod"]["notpermission"]}', ephemeral = True)
+
+        member = self.member
+        embed: discord.Embed = discord.Embed(title = f'Avatar {member}', 
+        description = f'[{t["args"]["avatar"]["click1"]}]({member.avatar}) {t["args"]["avatar"]["click2"]}')
+        embed.set_image(url = f'{member.avatar}')
+        await interaction.response.edit_message(embed = embed, view = guildavatar(self.ctx,member))
 
 class guildavatar(discord.ui.View):
 
-    def __init__(self, membro):
+    def __init__(self, ctx: discord.User, member: discord.Member):
 
-        self.member = membro
+        self.member: discord.Member = member
+
+        self.ctx: discord.User = ctx
 
         super().__init__(timeout = 180, disable_on_timeout = True)
 
-    @discord.ui.button(label = 'User Avatar',style = discord.ButtonStyle.blurple)
+    @discord.ui.button(label = 'guild Avatar',style = discord.ButtonStyle.blurple)
     async def useravatar(self, button: discord.ui.Button, interaction: discord.Interaction):
 
-        membro = self.member
-        t = translates(interaction.guild)
-        embed = discord.Embed(title = f'Avatar {membro}', 
-        description = f'[{t["args"]["avatar"]["click1"]}]({membro.guild_avatar}) {t["args"]["avatar"]["click2"]}')
-        embed.set_image(url = f'{membro.guild_avatar}')
-        await interaction.response.edit_message(embed = embed, View = changeavatar(membro))
+        t: dict = translates(interaction.guild)
+
+        if interaction.user.id != self.ctx.id:
+            return await interaction.response.send_message(f'{t["args"]["mod"]["notpermission"]}', ephemeral = True)
+
+        member = self.member
+        embed: discord.Embed = discord.Embed(title = f'Avatar {member}', 
+        description = f'[{t["args"]["avatar"]["click1"]}]({member.guild_avatar}) {t["args"]["avatar"]["click2"]}')
+        embed.set_image(url = f'{member.guild_avatar}')
+        await interaction.response.edit_message(embed = embed, view = changeavatar(self.ctx,member))
 
 class profile(View):
     
     def __init__(self,ctx):
 
-        self.ctx = ctx
+        self.ctx: discord.Member = ctx
 
         super().__init__(timeout = 300)
 
@@ -56,13 +70,13 @@ class profile(View):
         if interaction.user.id == self.ctx.id:
             await interaction.response.send_modal(perfil(interaction.user))
 
-class kisses(View):
+class KissButton(View):
     
-    def __init__(self, membro, ctx):
+    def __init__(self, member, ctx):
 
-        self.membro = membro
+        self.member: discord.Member = member
 
-        self.ctx = ctx
+        self.ctx: discord.Member = ctx
 
         super().__init__(timeout = 300)
 
@@ -70,27 +84,26 @@ class kisses(View):
     async def kiss(self, button: Button, interaction: Interaction):
         
         try:
-            if interaction.user.id == self.membro.id:
-                t = translates(interaction.guild)
-                r = requests.get(
-                'https://api.otakugifs.xyz/gif?reaction=kiss&format=gif')
-                res = r.json()
-                kiss2 = discord.Embed(title = t["args"]["actions"]["kiss"],
-                description = f'<@{self.membro.id}> {t["args"]["actions"]["actionkiss"]} <@{self.ctx.id}>',
-                color = hexacolors.string('indigo'))
-                kiss2.set_image(url = res['url'])
-                await interaction.response.send_message(content = f'{self.ctx.mention}',embed = kiss2)
-                self.stop()
+            t: dict = translates(interaction.guild)
+            if interaction.user.id != self.member.id:
+                return await interaction.response.send_message(f'{t["args"]["mod"]["notpermission"]}', ephemeral = True)
+            res: requests = requests.get('https://api.otakugifs.xyz/gif?reaction=kiss&format=gif').json()
+            kiss2: discord.Embed = discord.Embed(title = t["args"]["actions"]["kiss"],
+            description = t["args"]["actions"]["actionkiss"].format(self.member.mention, self.ctx.mention) ,
+            color = hexacolors.stringColor('indigo'))
+            kiss2.set_image(url = res['url'])
+            await interaction.response.send_message(content = f'{self.ctx.mention}',embed = kiss2)
+            self.stop()
         except Exception as error:
             print(error)
 
-class huges(View):
+class HugButton(View):
     
-    def __init__(self, membro, ctx):
+    def __init__(self, member, ctx):
 
-        self.membro = membro
+        self.member: discord.Member = member
 
-        self.ctx = ctx
+        self.ctx: discord.Member = ctx
 
         super().__init__(timeout = 300)
 
@@ -98,27 +111,27 @@ class huges(View):
     async def abraço(self, button: Button, interaction: Interaction):
 
         try:
-            if interaction.user.id == self.membro.id:
-                t = translates(interaction.guild)
-                r = requests.get(
-                'https://api.otakugifs.xyz/gif?reaction=hug&format=gif')
-                res = r.json()
-                kiss2 = discord.Embed(title = t["args"]["actions"]["hug"],
-                description = f'<@{self.membro.id}> {t["args"]["actions"]["actionhug"]} <@{self.ctx.id}>',
-                color = hexacolors.string('indigo'))
-                kiss2.set_image(url = res['url'])
-                await interaction.response.send_message(content = f'{self.ctx.mention}',embed = kiss2)
-                self.stop()
+            t: dict = translates(interaction.guild)
+            if interaction.user.id != self.member.id:
+                return await interaction.response.send_message(f'{t["args"]["mod"]["notpermission"]}', ephemeral = True)
+            t: dict = translates(interaction.guild)
+            res: requests = requests.get('https://api.otakugifs.xyz/gif?reaction=hug&format=gif').json()
+            kiss2: discord.Embed = discord.Embed(title = t["args"]["actions"]["hug"],
+            description = t["args"]["actions"]["actionhug"].format(self.member.mention, self.ctx.mention),
+            color = hexacolors.stringColor('indigo'))
+            kiss2.set_image(url = res['url'])
+            await interaction.response.send_message(content = f'{self.ctx.mention}',embed = kiss2)
+            self.stop()
         except Exception as error:
             print(error)
 
-class slaps(View):
+class SlapButton(View):
     
-    def __init__(self, membro, ctx):
+    def __init__(self, member, ctx):
 
-        self.membro = membro
+        self.member: discord.Member = member
 
-        self.ctx = ctx
+        self.ctx: discord.Member = ctx
 
         super().__init__(timeout = 300)
 
@@ -126,27 +139,26 @@ class slaps(View):
     async def tapa(self, button: Button, interaction: Interaction):
         
         try:
-            if interaction.user.id == self.membro.id:
-                t = translates(interaction.guild)
-                r = requests.get(
-                'https://api.otakugifs.xyz/gif?reaction=slap&format=gif')
-                res = r.json()
-                kiss2 = discord.Embed(title = t["args"]["actions"]["slap"],
-                description = f'<@{self.membro.id}> {t["args"]["actions"]["actionslap"]} <@{self.ctx.id}>',
-                color = hexacolors.string('indigo'))
-                kiss2.set_image(url = res['url'])
-                await interaction.response.send_message(content = f'{self.ctx.mention}',embed = kiss2)
-                self.stop()
+            t: dict = translates(interaction.guild)
+            if interaction.user.id != self.member.id:
+                return await interaction.response.send_message(f'{t["args"]["mod"]["notpermission"]}', ephemeral = True)
+            res: requests = requests.get('https://api.otakugifs.xyz/gif?reaction=slap&format=gif').json()
+            kiss2: discord.Embed = discord.Embed(title = t["args"]["actions"]["slap"],
+            description = t["args"]["actions"]["actionslap"].format(self.member.mention, self.ctx.mention),
+            color = hexacolors.stringColor('indigo'))
+            kiss2.set_image(url = res['url'])
+            await interaction.response.send_message(content = f'{self.ctx.mention}',embed = kiss2)
+            self.stop()
         except Exception as error:
             print(error)
 
-class punches(View):
+class punchButton(View):
     
-    def __init__(self, membro, ctx):
+    def __init__(self, member, ctx):
 
-        self.membro = membro
+        self.member: discord.Member = member
 
-        self.ctx = ctx
+        self.ctx: discord.Member = ctx
 
         super().__init__(timeout = 300)
 
@@ -154,27 +166,26 @@ class punches(View):
     async def soco(self, button: Button, interaction: Interaction):
         
         try:
-            if interaction.user.id == self.membro.id:
-                t = translates(interaction.guild)
-                r = requests.get(
-                'https://api.otakugifs.xyz/gif?reaction=punch&format=gif')
-                res = r.json()
-                kiss2 = discord.Embed(title = t["args"]["actions"]["punch"],
-                description = f'<@{self.membro.id}> {t["args"]["actions"]["actionpunch"]} <@{self.ctx.id}>',
-                color = hexacolors.string('indigo'))
-                kiss2.set_image(url = res['url'])
-                await interaction.response.send_message(content = f'{self.ctx.mention}',embed = kiss2)
-                self.stop()
+            t: dict = translates(interaction.guild)
+            if interaction.user.id != self.member.id:
+                return await interaction.response.send_message(f'{t["args"]["mod"]["notpermission"]}', ephemeral = True)
+            res: requests = requests.get('https://api.otakugifs.xyz/gif?reaction=punch&format=gif').json()
+            kiss2: discord.Embed = discord.Embed(title = t["args"]["actions"]["punch"],
+            description = t["args"]["actions"]["actionpunch"].format(self.member.mention,self.ctx.mention),
+            color = hexacolors.stringColor('indigo'))
+            kiss2.set_image(url = res['url'])
+            await interaction.response.send_message(content = f'{self.ctx.mention}',embed = kiss2)
+            self.stop()
         except Exception as error:
             print(error)
 
-class bites(View):
+class biteButton(View):
     
-    def __init__(self, membro, ctx):
+    def __init__(self, member, ctx):
 
-        self.membro = membro
+        self.member: discord.Member = member
 
-        self.ctx = ctx
+        self.ctx: discord.Member = ctx
 
         super().__init__(timeout = 300)
 
@@ -182,27 +193,26 @@ class bites(View):
     async def moder(self, button: Button, interaction: Interaction):
         
         try:
-            if interaction.user.id == self.membro.id:
-                t = translates(interaction.guild)
-                r = requests.get(
-                'https://api.otakugifs.xyz/gif?reaction=bite&format=gif')
-                res = r.json()
-                kiss2 = discord.Embed(title = t["args"]["actions"]["bite"],
-                description = f'<@{self.membro.id}> {t["args"]["actions"]["actionbite"]} <@{self.ctx.id}>',
-                color = hexacolors.string('indigo'))
-                kiss2.set_image(url = res['url'])
-                await interaction.response.send_message(content = f'{self.ctx.mention}',embed = kiss2)
-                self.stop()
+            t: dict = translates(interaction.guild)
+            if interaction.user.id != self.member.id:
+                return await interaction.response.send_message(f'{t["args"]["mod"]["notpermission"]}', ephemeral = True)
+            res: requests = requests.get('https://api.otakugifs.xyz/gif?reaction=bite&format=gif').json()
+            kiss2: discord.Embed = discord.Embed(title = t["args"]["actions"]["bite"],
+            description = t["args"]["actions"]["actionbite"].format(self.member.mention, self.ctx.mention),
+            color = hexacolors.stringColor('indigo'))
+            kiss2.set_image(url = res['url'])
+            await interaction.response.send_message(content = f'{self.ctx.mention}',embed = kiss2)
+            self.stop()
         except Exception as error:
             print(error)
 
-class cafunes(View):
+class patButton(View):
     
-    def __init__(self, membro, ctx):
+    def __init__(self, member, ctx):
 
-        self.membro = membro
+        self.member: discord.Member = member
 
-        self.ctx = ctx
+        self.ctx: discord.Member = ctx
 
         super().__init__(timeout = 300)
 
@@ -210,27 +220,26 @@ class cafunes(View):
     async def cafune(self, button: Button, interaction: Interaction):
         
         try:
-            if interaction.user.id == self.membro.id:
-                t = translates(interaction.guild)
-                r = requests.get(
-                'https://api.otakugifs.xyz/gif?reaction=pat&format=gif')
-                res = r.json()
-                kiss2 = discord.Embed(title = t["args"]["actions"]["pat"],
-                description = f'<@{self.membro.id}> {t["args"]["actions"]["actionpat"]} <@{self.ctx.id}>',
-                color = hexacolors.string('indigo'))
-                kiss2.set_image(url = res['url'])
-                await interaction.response.send_message(content = f'{self.ctx.mention}',embed = kiss2)
-                self.stop()
+            t: dict = translates(interaction.guild)
+            if interaction.user.id != self.member.id:
+                return await interaction.response.send_message(f'{t["args"]["mod"]["notpermission"]}', ephemeral = True)
+            res: requests = requests.get('https://api.otakugifs.xyz/gif?reaction=pat&format=gif').json()
+            kiss2: discord.Embed = discord.Embed(title = t["args"]["actions"]["pat"],
+            description = t["args"]["actions"]["actionpat"].format(self.member.mention, self.ctx.mention),
+            color = hexacolors.stringColor('indigo'))
+            kiss2.set_image(url = res['url'])
+            await interaction.response.send_message(content = f'{self.ctx.mention}',embed = kiss2)
+            self.stop()
         except Exception as error:
             print(error)
 
-class lickes(View):
+class lickButton(View):
     
-    def __init__(self, membro, ctx):
+    def __init__(self, member, ctx):
 
-        self.membro = membro
+        self.member: discord.Member = member
 
-        self.ctx = ctx
+        self.ctx: discord.Member = ctx
 
         super().__init__(timeout = 300)
 
@@ -238,16 +247,15 @@ class lickes(View):
     async def lambida(self, button: Button, interaction: Interaction):
         
         try:
-            if interaction.user.id == self.membro.id:
-                t = translates(interaction.guild)
-                r = requests.get(
-                'https://api.otakugifs.xyz/gif?reaction=lick&format=gif')
-                res = r.json()
-                kiss2 = discord.Embed(title = t["args"]["actions"]["lick"],
-                description = f'<@{self.membro.id}> {t["args"]["actions"]["actionlick"]} <@{self.ctx.id}>',
-                color = hexacolors.string('indigo'))
-                kiss2.set_image(url = res['url'])
-                await interaction.response.send_message(content = f'{self.ctx.mention}',embed = kiss2)
-                self.stop()
+            t: dict = translates(interaction.guild)
+            if interaction.user.id != self.member.id:
+                return await interaction.response.send_message(f'{t["args"]["mod"]["notpermission"]}', ephemeral = True)
+            res: requests = requests.get('https://api.otakugifs.xyz/gif?reaction=lick&format=gif').json()
+            kiss2: discord.Embed = discord.Embed(title = t["args"]["actions"]["lick"],
+            description = t["args"]["actions"]["actionlick"].format(self.member.mention,self.ctx.mention),
+            color = hexacolors.stringColor('indigo'))
+            kiss2.set_image(url = res['url'])
+            await interaction.response.send_message(content = f'{self.ctx.mention}',embed = kiss2)
+            self.stop()
         except Exception as error:
             print(error)

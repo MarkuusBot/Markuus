@@ -3,23 +3,23 @@
     "args":{
         
         "adv": "warning",
-
         "rmvadv": "warning removal",
+        "advsucess": "{} successfully warned",
+        "notadv": "This member not have warnings",
+        "rmvadvsucess": "{} warning removed successfully",
 
         "notvote": "To use this command you need to vote on top.gg, use /vote",
+        "moduledisable": "This module is disabled on this server",
+        "modulealreadyenable": "This module is already enabled",
+        "modulealreadydisable": "This module is already disabled",
+        "moduledisablesucess": "Module disabled successfully",
+        "moduleenablesucess": "Module enabled successfully",
 
         "random": "Your chosen number was",
-
-        "advsucess": "{} successfully warned",
-
-        "notadv": "This member not have warnings",
-
-        "rmvadvsucess": "{} warning removed successfully",
 
         "gan": "you won",
 
         "act": "activate",
-
         "dsb": "disable",
 
         "sendid": "Send the chat id in the chat",
@@ -175,13 +175,21 @@
             "bite": "Bite",
             "lick": "Lambida",
 
-            "actionkiss": "kissed",
-            "actionhug": "hugged",
-            "actionslap": "slapped",
-            "actionpat": "made a cafuné in",
-            "actionpunch": "punched",
-            "actionbite": "he bit",
-            "actionlick": "licked",
+            "actionkiss": "{} kissed {}",
+            "actionhug": "{} hugged {}",
+            "actionslap": "{} slapped {}",
+            "actionpat": "{} patted {}",
+            "actionpunch": "{} punched {} ",
+            "actionbite": "{} bit {}",
+            "actionlick": "{} licked {}",
+
+            "actionkissself": "{} kissed yourself??",
+            "actionslapself": "{} slapped yourself??",
+            "actionpatself": "{} patted himself??",
+            "actionpunchself": "{} punched yourself??",
+            "actionbiteself": "{} bit yourself??",
+            "actionlickself": "{} licked itself??",
+            "actionhugself": "Awwnn you need a hug here you are \n {} hugged {}",
 
             "return": "Click the 🔁 to give back",
             "notkiss": "I think we better just be friends"

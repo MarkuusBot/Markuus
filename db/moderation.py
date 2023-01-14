@@ -1,14 +1,17 @@
-from pymongo import MongoClient
+import discord
 from utils.loader import configData
+from pymongo import MongoClient
+from pymongo.collection import Collection
+from pymongo.database import Database
 
-cluster = MongoClient(configData['mongokey'])
-db = cluster[configData['database']]
-mod = db['MOD']
-advdb = db['ADV']
+cluster: MongoClient = MongoClient(configData['mongokey'])
+db: Database = cluster[configData['database']]
+mod: Collection = db['MOD']
+advdb: Collection = db['ADV']
 
 class dbmoderation:
 
-    def lang(opt,oq,guild):
+    def lang(opt,oq,guild: discord.Guild):
 
         if opt is not None:
             if mod.count_documents({"_id":guild.id}) == 0:
@@ -30,14 +33,14 @@ class dbmoderation:
             mod.update_one({"_id": guild.id}, {'$set': {opt: {'True?': oq,'id': id, 'webhook': webhook}}},upsert = True)
 
     def adcadvdb(guild, author, member, qnt, motivo):
-        advdb.update_one( { "_id":f'{guild.id}_{member.id}'}, {'$set':{qnt:[author.id,member.id,motivo]}}, upsert = True )
+        if guild is not None:
+            advdb.update_one( { "_id":f'{guild.id}_{member.id}'}, {'$set':{qnt:[author.id,member.id,motivo]}}, upsert = True )
 
     def rmvadvdb(guild,author,member, qnt, motivo):
-        advdb.update_one( { "_id":f'{guild.id}_{member.id}'}, {'$unset':{qnt:[author,member.id,motivo]}})
+        if guild is not None:
+            advdb.update_one( { "_id":f'{guild.id}_{member.id}'}, {'$unset':{qnt:[author,member.id,motivo]}})
+    
+    def modules(guild, module, value):
 
-    def msgtckid(id, guild):
-
-        if id is not None:
-            if mod.count_documents({"_id":guild.id}) == 0:
-                mod.insert_one({"_id":guild.id, "Nome":guild.name})
-            mod.update_one({"_id": guild.id}, {"$set": {"msgtck": id}}, upsert = True)
+        if guild is not None:
+            mod.update_one({"_id": guild.id}, {"$set":{f"modules.{module}": value}}, upsert=True)
